@@ -4,9 +4,10 @@ from . import models
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['id', 'name', 'email', 'password', 'username']
+        fields = ['id', 'name', 'email', 'password', 'username', 'email_verify']
         extra_kwargs = {    
-            'password': {'write_only': True}
+            'password': {'write_only': True},
+            "email_verify": {'read_only': True}
         }
         
     def create(self, validated_data):
@@ -17,3 +18,6 @@ class UserSerializer(serializers.ModelSerializer):
             
         instance.save()
         return instance
+    
+class EmailConfirm(serializers.Serializer):
+    code = serializers.CharField()
